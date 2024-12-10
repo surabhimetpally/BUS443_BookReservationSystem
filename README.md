@@ -1,4 +1,4 @@
-# BUS440_BookReservation
+# BUS443_BookReservation
  1.⁠ ⁠Clone the repo
 2.⁠ ⁠Navigate to django_projects directory in terminal
 	cd django_projects/
