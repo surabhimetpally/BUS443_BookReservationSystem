@@ -1,0 +1,109 @@
+{% extends "library/base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Total Students</h5>
+                <p class="card-text display-4">{{ total_students }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Average GPA</h5>
+                <p class="card-text display-4">{{ avg_gpa|floatformat:2 }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Student Year Distribution</h5>
+                <canvas id="yearChart"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">GPA Distribution</h5>
+                <canvas id="gpaChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Add console.log to debug
+    console.log('Labels:', {{ year_labels|safe }});
+    console.log('Counts:', {{ year_counts|safe }});
+
+    var yearCtx = document.getElementById('yearChart').getContext('2d');
+    var yearChart = new Chart(yearCtx, {
+        type: 'pie',
+        data: {
+            labels: {{ year_labels|safe }},
+            datasets: [{
+                data: {{ year_counts|safe }},
+                backgroundColor: [
+                    '#FF6384',  // red
+                    '#36A2EB',  // blue
+                    '#FFCE56',  // yellow
+                    '#4BC0C0'   // green
+                ]
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'bottom'
+                }
+            }
+        }
+    });
+
+    // GPA Bar Chart
+    var gpaCtx = document.getElementById('gpaChart').getContext('2d');
+    var gpaChart = new Chart(gpaCtx, {
+        type: 'bar',
+        data: {
+            labels: {{ gpa_labels|safe }},
+            datasets: [{
+                label: 'Number of Students',
+                data: {{ gpa_counts|safe }},
+                backgroundColor: [
+                    '#FF6384',
+                    '#36A2EB',
+                    '#FFCE56',
+                    '#4BC0C0'
+                ]
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        stepSize: 1
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    display: false
+                }
+            }
+        }
+    });
+});
+</script>
+{% endblock %}
