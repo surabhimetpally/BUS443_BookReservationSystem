@@ -8,4 +8,6 @@
 	pip install -r requirements.txt
 5.⁠ ⁠python manage.py makemigrations
 6.⁠ ⁠python manage.py migrate
-7.⁠ ⁠python manage.py createsuperuser
+7. python manage.py makemigrations library
+8. python manage.py migrate
+9.⁠ ⁠python manage.py createsuperuser
